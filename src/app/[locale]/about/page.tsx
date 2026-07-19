@@ -81,24 +81,27 @@ export default function AboutPage() {
         {members.length === 0 ? (
           <p className="text-zinc-500 italic">{t('memberPlaceholder')}</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {members.map((m) => (
-              <div key={m._id} className="flex gap-4 bg-[#000060] rounded-lg p-4 border border-blue-900/40">
+              <div key={m._id} className="bg-[#000060] rounded-xl border border-blue-900/40 overflow-hidden flex flex-col">
                 {m.photo && (
-                  <div className="w-20 h-20 rounded-full overflow-hidden shrink-0 bg-[#000080]">
+                  <div className="relative w-full aspect-[4/3] bg-[#000080]">
                     <Image
-                      src={urlFor(m.photo).width(80).height(80).url()}
+                      src={urlFor(m.photo).width(600).height(450).url()}
                       alt={m.name}
-                      width={80}
-                      height={80}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 )}
-                <div>
-                  <h3 className="text-lg font-semibold">{m.name}</h3>
-                  <p className="text-sm text-blue-300">{localizedValue(m.instrument, locale)}</p>
-                  <p className="text-sm text-zinc-400 mt-1">{localizedValue(m.bio, locale)}</p>
+                <div className="p-5 flex flex-col gap-2 flex-1">
+                  <h3 className="text-xl font-semibold">{m.name}</h3>
+                  <p className="text-sm text-blue-300 font-medium">
+                    {localizedValue(m.instrument, locale)}
+                  </p>
+                  <p className="text-sm text-zinc-400 leading-relaxed">
+                    {localizedValue(m.bio, locale)}
+                  </p>
                 </div>
               </div>
             ))}
