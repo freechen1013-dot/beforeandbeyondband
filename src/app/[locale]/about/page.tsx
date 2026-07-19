@@ -85,21 +85,20 @@ export default function AboutPage() {
             {members.map((m) => (
               <div key={m._id} className="bg-[#000060] rounded-xl border border-blue-900/40 overflow-hidden flex flex-col">
                 {m.photo && (
-                  <div className="relative w-full aspect-[4/3] bg-[#000080]">
-                    <Image
-                      src={urlFor(m.photo).width(600).height(450).url()}
+                  <div className="w-full h-56 bg-[#000080] overflow-hidden">
+                    <img
+                      src={urlFor(m.photo).width(600).height(400).url()}
                       alt={m.name}
-                      fill
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 )}
-                <div className="p-5 flex flex-col gap-2 flex-1">
-                  <h3 className="text-xl font-semibold">{m.name}</h3>
-                  <p className="text-sm text-blue-300 font-medium">
+                <div className="p-5 flex flex-col gap-2 flex-1 min-w-0">
+                  <h3 className="text-xl font-semibold break-words">{m.name}</h3>
+                  <p className="text-sm text-blue-300 font-medium break-words">
                     {localizedValue(m.instrument, locale)}
                   </p>
-                  <p className="text-sm text-zinc-400 leading-relaxed">
+                  <p className="text-sm text-zinc-400 leading-relaxed break-words">
                     {localizedValue(m.bio, locale)}
                   </p>
                 </div>
