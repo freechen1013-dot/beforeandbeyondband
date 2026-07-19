@@ -1,16 +1,17 @@
 import { defineType, defineField } from 'sanity'
+import { localizedString, localizedText } from '../lib/localizedFields'
 
 export default defineType({
   name: 'song',
   title: 'Song',
   type: 'document',
   fields: [
-    defineField({ name: 'title', title: 'Title', type: 'string' }),
-    defineField({ name: 'composer', title: 'Composer', type: 'string' }),
+    localizedString('title', 'Title'),
+    localizedString('composer', 'Composer'),
     defineField({ name: 'year', title: 'Year', type: 'number' }),
     defineField({ name: 'era', title: 'Era', type: 'string' }),
     defineField({ name: 'genre', title: 'Genre', type: 'string' }),
-    defineField({ name: 'description', title: 'Description', type: 'text' }),
+    localizedText('description', 'Description'),
     defineField({ name: 'coverArt', title: 'Cover Art', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'performanceVideo', title: 'Performance Video', type: 'url' }),
     defineField({ name: 'songUrl', title: 'Song URL', type: 'url' }),

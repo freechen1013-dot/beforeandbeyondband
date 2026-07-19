@@ -1,14 +1,15 @@
 import { defineType, defineField } from 'sanity'
+import { localizedString, localizedText } from '../lib/localizedFields'
 
 export default defineType({
   name: 'siteSettings',
   title: 'Site Settings',
   type: 'document',
   fields: [
-    defineField({ name: 'siteTitle', title: 'Site Title', type: 'string' }),
-    defineField({ name: 'description', title: 'Description', type: 'text' }),
+    localizedString('siteTitle', 'Site Title'),
+    localizedText('description', 'Description'),
     defineField({ name: 'igUrl', title: 'Instagram URL', type: 'url' }),
     defineField({ name: 'ytUrl', title: 'YouTube URL', type: 'url' }),
-    defineField({ name: 'footerCredit', title: 'Footer Credit', type: 'string' }),
+    localizedString('footerCredit', 'Footer Credit'),
   ],
 })
