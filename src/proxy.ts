@@ -1,20 +1,12 @@
+import createMiddleware from 'next-intl/middleware'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { routing } from '@/i18n/routing'
 
-const locales = ['en', 'zh-TW', 'zh-CN', 'ja', 'ko', 'fr', 'de']
-const defaultLocale = 'en'
-const skipPaths = /^\/(_next|studio|api|favicon\.ico)/
+const intlMiddleware = createMiddleware(routing)
+
 const staticFileExtensions = /\.(png|jpg|jpeg|JPG|JPEG|PNG|svg|webp|mp4|webm|ogg|ico|mov|MOV)$/
-
-function getLocale(request: NextRequest): string {
-  const acceptLang = request.headers.get('accept-language')
-  if (!acceptLang) return defaultLocale
-
-  for (const locale of locales) {
-    if (acceptLang.startsWith(locale)) return locale
-  }
-  return defaultLocale
-}
+const skipPaths = /^\/(_next|studio|api|favicon\.ico)/
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -23,17 +15,9 @@ export function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  )
-
-  if (pathnameHasLocale) return NextResponse.next()
-
-  const locale = getLocale(request)
-  request.nextUrl.pathname = `/${locale}${pathname}`
-  return NextResponse.redirect(request.nextUrl)
+  return intlMiddleware(request)
 }
 
 export const config = {
-  matcher: ['/:path*'],
+  matcher: ['/((?!_next|studio|api|favicon.ico|.*\\..*).*)'],
 }

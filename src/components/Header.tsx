@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { HiGlobeAlt } from 'react-icons/hi'
 
@@ -20,8 +20,19 @@ const locales = [
 export default function Header() {
   const t = useTranslations('nav')
   const params = useParams()
+  const pathname = usePathname()
   const locale = (params?.locale as string) || 'en'
   const [langOpen, setLangOpen] = useState(false)
+
+  function switchLocale(target: string) {
+    const segments = pathname.split('/').filter(Boolean)
+    if (locales.some(l => l.code === segments[0])) {
+      segments[0] = target
+    } else {
+      segments.unshift(target)
+    }
+    return '/' + segments.join('/')
+  }
 
   const navLinks = [
     { href: '/', label: t('home') },
@@ -42,7 +53,7 @@ export default function Header() {
           {navLinks.map((link) => (
             <Link
               key={link.href}
-              href={`/${locale}${link.href}`}
+              href={`/${locale}${link.href === '/' ? '' : link.href}`}
               className="text-sm font-medium text-zinc-300 hover:text-white transition-colors"
             >
               {link.label}
@@ -63,7 +74,7 @@ export default function Header() {
               {locales.map((l) => (
                 <Link
                   key={l.code}
-                  href={`/${l.code}`}
+                  href={switchLocale(l.code)}
                   className={`flex items-center gap-2 px-4 py-2 text-sm hover:bg-blue-900/50 transition-colors ${
                     locale === l.code ? 'text-blue-300' : 'text-zinc-300'
                   }`}
