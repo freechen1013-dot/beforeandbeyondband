@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server'
 
 const locales = ['en', 'zh-TW', 'zh-CN', 'ja', 'ko', 'fr', 'de']
 const defaultLocale = 'en'
+const skipPaths = /^\/(_next|studio|api|favicon\.ico)/
 const staticFileExtensions = /\.(png|jpg|jpeg|JPG|JPEG|PNG|svg|webp|mp4|webm|ogg|ico|mov|MOV)$/
 
 function getLocale(request: NextRequest): string {
@@ -18,7 +19,9 @@ function getLocale(request: NextRequest): string {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  if (staticFileExtensions.test(pathname)) return NextResponse.next()
+  if (skipPaths.test(pathname) || staticFileExtensions.test(pathname)) {
+    return NextResponse.next()
+  }
 
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
