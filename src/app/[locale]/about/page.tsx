@@ -18,10 +18,14 @@ export default function AboutPage() {
   const params = useParams()
   const locale = (params?.locale as string) || 'en'
   const [members, setMembers] = useState<Member[]>([])
+  const [performances, setPerformances] = useState<any[]>([])
 
   useEffect(() => {
     sanityFetch<Member[]>(`*[_type == "member"]{_id, name, bio, instrument, photo}`)
       .then(setMembers)
+      .catch(() => {})
+    sanityFetch<any[]>(`*[_type == "performance"] | order(year desc){year, venue, description}`)
+      .then(setPerformances)
       .catch(() => {})
   }, [])
 
@@ -58,16 +62,21 @@ export default function AboutPage() {
           Performances
         </h2>
         <div className="space-y-4">
-          <div className="border border-blue-900/40 rounded-lg p-5 bg-blue-950/20">
-            <p className="text-zinc-500 text-sm mb-1">2025</p>
-            <p className="text-white font-medium">TBD</p>
-          </div>
-          <div className="border border-blue-900/40 rounded-lg p-5 bg-blue-950/20">
-            <p className="text-zinc-500 text-sm mb-1">2025</p>
-            <p className="text-white font-medium">
-              新北市耕莘醫院安康院區
-            </p>
-          </div>
+          {performances.length === 0 ? (
+            <p className="text-zinc-500 italic">No performances listed yet.</p>
+          ) : (
+            performances.map((p, i) => (
+              <div key={i} className="border border-blue-900/40 rounded-lg p-5 bg-blue-950/20">
+                <p className="text-zinc-500 text-sm mb-1">{p.year}</p>
+                <p className="text-white font-medium">{p.venue}</p>
+                {p.description && (
+                  <p className="text-zinc-400 text-sm mt-1">
+                    {localizedValue(p.description, locale)}
+                  </p>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </section>
 

@@ -5,6 +5,8 @@ import contactMessage from './contactMessage'
 import member from './member'
 import siteSettings from './siteSettings'
 import blockContent from './blockContent'
+import performance from './performance'
+import galleryImage from './galleryImage'
 
 export const schemaTypes = [
   carouselSlide,
@@ -14,4 +16,6 @@ export const schemaTypes = [
   member,
   siteSettings,
   blockContent,
+  performance,
+  galleryImage,
 ]

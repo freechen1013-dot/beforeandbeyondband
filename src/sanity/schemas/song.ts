@@ -11,6 +11,7 @@ export default defineType({
     defineField({ name: 'year', title: 'Year', type: 'number' }),
     defineField({ name: 'era', title: 'Era', type: 'string' }),
     defineField({ name: 'genre', title: 'Genre', type: 'string' }),
+    defineField({ name: 'performances', title: 'Performance Count', type: 'number', initialValue: 1 }),
     localizedText('description', 'Description'),
     defineField({ name: 'coverArt', title: 'Cover Art', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'performanceVideo', title: 'Performance Video', type: 'url' }),

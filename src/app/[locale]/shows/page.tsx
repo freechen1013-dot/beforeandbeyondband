@@ -51,6 +51,14 @@ export default function ShowsPage() {
     ])
     setVideos(['/IMG_3059.mp4', '/IMG_3077.mp4'])
 
+    sanityFetch<any[]>(`*[_type == "galleryImage"] | order(order asc){image}`)
+      .then((imgs) => {
+        if (imgs.length > 0) {
+          setImages(imgs.map((g: any) => urlFor(g.image).width(800).url()))
+        }
+      })
+      .catch(() => {})
+
     sanityFetch<any[]>(`*[_type == "song"]{_id, title, composer, year, genre, era, description, performances, coverArt, performanceVideo, songUrl}`)
       .then(setSongs)
       .catch(() => {})
