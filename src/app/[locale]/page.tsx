@@ -11,8 +11,9 @@ import { sanityFetch, urlFor, localizedValue } from '@/sanity/fetch'
 
 type Slide = {
   image: any
-  title: Record<string, string>
-  description: Record<string, string>
+  title?: Record<string, string>
+  description?: Record<string, string>
+  caption?: string
 }
 
 type Post = {
@@ -38,9 +39,18 @@ export default function HomePage() {
   const [current, setCurrent] = useState(0)
 
   useEffect(() => {
-    sanityFetch<Slide[]>(
-      `*[_type == "carouselSlide"] | order(order asc){image, title, description}`
-    ).then(setSlides).catch(() => {})
+    Promise.all([
+      sanityFetch<any[]>(`*[_type == "carouselSlide"] | order(order asc){image, title, description}`),
+      sanityFetch<any[]>(`*[_type == "galleryImage" && placement in ["carousel", "both"]] | order(order asc){image, caption}`),
+    ]).then(([carouselSlides, galleryCarousel]) => {
+      const galleryAsSlides = galleryCarousel.map((g: any) => ({
+        image: g.image,
+        title: null,
+        description: null,
+        caption: g.caption,
+      }))
+      setSlides([...carouselSlides, ...galleryAsSlides])
+    }).catch(() => {})
 
     sanityFetch<Post[]>(
       `*[_type == "blogPost" && defined(slug.current)] | order(publishedAt desc)[0..2]{_id, title, slug, excerpt}`
@@ -112,12 +122,34 @@ export default function HomePage() {
         </div>
 
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold text-white mb-4 tracking-tight">
-            {slides[current]?.title ? localizedValue(slides[current].title!, locale) : t('heroTitle')}
-          </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-blue-200/90 max-w-2xl leading-relaxed font-light">
-            {slides[current]?.description ? localizedValue(slides[current].description!, locale) : t('heroSubtitle')}
-          </p>
+          {slides[current]?.title ? (
+            <>
+              <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold text-white mb-4 tracking-tight">
+                {localizedValue(slides[current].title!, locale)}
+              </h1>
+              <p className="text-lg sm:text-xl md:text-2xl text-blue-200/90 max-w-2xl leading-relaxed font-light">
+                {localizedValue(slides[current].description!, locale)}
+              </p>
+            </>
+          ) : slides[current]?.caption ? (
+            <>
+              <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold text-white mb-4 tracking-tight">
+                {t('heroTitle')}
+              </h1>
+              <p className="text-lg sm:text-xl md:text-2xl text-blue-200/90 max-w-2xl leading-relaxed font-light">
+                {slides[current].caption}
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold text-white mb-4 tracking-tight">
+                {t('heroTitle')}
+              </h1>
+              <p className="text-lg sm:text-xl md:text-2xl text-blue-200/90 max-w-2xl leading-relaxed font-light">
+                {t('heroSubtitle')}
+              </p>
+            </>
+          )}
         </div>
       </section>
 

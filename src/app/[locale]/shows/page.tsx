@@ -51,7 +51,7 @@ export default function ShowsPage() {
     ])
     setVideos(['/IMG_3059.mp4', '/IMG_3077.mp4'])
 
-    sanityFetch<any[]>(`*[_type == "galleryImage"] | order(order asc){image}`)
+    sanityFetch<any[]>(`*[_type == "galleryImage" && placement in ["gallery", "both"]] | order(order asc){image}`)
       .then((imgs) => {
         if (imgs.length > 0) {
           setImages(imgs.map((g: any) => urlFor(g.image).width(800).url()))
