@@ -2,32 +2,11 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
+import { useParams } from 'next/navigation'
 import * as d3 from 'd3'
+import { sanityFetch, urlFor, localizedValue } from '@/sanity/fetch'
 
 const genres = ["Classical", "Taiwanese Folk", "Chinese Pop", "Contemporary Classical", "Pop", "Original"]
-
-const songs = [
-  { title: "Canon in D", composer: "Pachelbel", year: 1680, genre: "Classical", era: "Baroque", description: "One of the most famous classical pieces ever written, Pachelbel's Canon features three violins playing a canon over a ground bass. Rediscovered in the 20th century, it has become a wedding staple worldwide.", performances: 2 },
-  { title: "月亮代表我的心", composer: "翁清溪 / 孫儀", year: 1972, genre: "Chinese Pop", era: "20th Century", description: "Originally sung by 陳芬蘭 in 1972, this song became a global Chinese classic when Teresa Teng rerecorded it in 1977. It remains one of the most covered Chinese songs of all time.", performances: 2 },
-  { title: "望春風", composer: "鄧雨賢 / 李臨秋", year: 1933, genre: "Taiwanese Folk", era: "Early 20th Century", description: "A iconic Taiwanese folk song composed during Japanese rule. Its pentatonic melody captures the含蓄 beauty of a young woman's longing for love. Voted #1 most beloved oldie in Taiwan.", performances: 1 },
-  { title: "明天會更好", composer: "羅大佑", year: 1985, genre: "Chinese Pop", era: "20th Century", description: "Taiwan's answer to 'We Are the World', this charity single brought together 60 artists. Its message of hope resonates across generations.", performances: 1 },
-  { title: "River Flows in You", composer: "Yiruma (이루마)", year: 2001, genre: "Contemporary Classical", era: "21st Century", description: "Yiruma's most famous piano piece, inspired by Riverdance. Gained worldwide fame after being featured in Twilight. A modern piano classic.", performances: 1 },
-  { title: "如願", composer: "錢雷 / 唐恬", year: 2021, genre: "Chinese Pop", era: "21st Century", description: "Performed by Faye Wong for the film 'My Country, My Parents'. Won multiple awards and became an anthem of跨generational传承.", performances: 1 },
-  { title: "golden hour", composer: "JVKE", year: 2022, genre: "Pop", era: "21st Century", description: "JVKE's breakout hit that went viral on TikTok. A dreamy piano ballad about young love, inspired by Franz Liszt and Frank Ocean.", performances: 1 },
-  { title: "繼續走", composer: "瑞Rui", year: 2025, genre: "Original", era: "21st Century", description: "Original composition by band member 瑞Rui. Created through the 'Three Notes to a Song' challenge. A testament to our band's creative spirit.", performances: 1 },
-]
-
-const images = [
-  "/IMG_3092.JPG",
-  "/IMG_20250420_101511.JPEG",
-  "/IMG_3084.jpg",
-  "/IMG_3086.jpg",
-  "/F5B48205B391DB7A7802F49D2E1E40E1A1F7E5A5.jpeg",
-  "/67AE669094D3D8F32327E5B44469ACD216CAD6B0.jpeg",
-  "/139B950DBEB791DEE7F7CB4451789B0916C4AF7A.jpeg",
-]
-
-const videos = ["/IMG_3059.mp4", "/IMG_3077.mp4"]
 
 const genreColors: Record<string, string> = {
   "Classical": "#8B5CF6",
@@ -38,16 +17,41 @@ const genreColors: Record<string, string> = {
   "Original": "#F97316",
 }
 
-type Song = (typeof songs)[0]
+type Song = {
+  _id: string
+  title: Record<string, string>
+  composer: Record<string, string>
+  year: number
+  genre: string
+  era: string
+  description: Record<string, string>
+  performances: number
+  coverArt: any
+  performanceVideo: string
+  songUrl: string
+}
 
 export default function ShowsPage() {
   const t = useTranslations('shows')
+  const params = useParams()
+  const locale = (params?.locale as string) || 'en'
+  const [songs, setSongs] = useState<Song[]>([])
+  const [images, setImages] = useState<string[]>([])
+  const [videos, setVideos] = useState<string[]>([])
   const [selectedSong, setSelectedSong] = useState<Song | null>(null)
   const svgRef = useRef<SVGSVGElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!svgRef.current || !containerRef.current) return
+    sanityFetch<any[]>(`*[_type == "song"]{_id, title, composer, year, genre, era, description, performances, coverArt, performanceVideo, songUrl}`)
+      .then(setSongs)
+      .catch(() => {})
+    sanityFetch<any[]>(`*[_type == "siteSettings"][0]{igUrl, ytUrl}`)
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (!svgRef.current || !containerRef.current || songs.length === 0) return
 
     const container = containerRef.current
     const width = container.clientWidth
@@ -78,7 +82,7 @@ export default function ShowsPage() {
       .padding(0.5)
 
     const rScale = d3.scaleSqrt<number>()
-      .domain([1, 2])
+      .domain([1, Math.max(...songs.map(s => s.performances || 1))])
       .range([8, 16])
 
     g.append('g')
@@ -114,8 +118,8 @@ export default function ShowsPage() {
       .join('circle')
       .attr('cx', d => xScale(d.year))
       .attr('cy', d => yScale(d.genre)!)
-      .attr('r', d => rScale(d.performances))
-      .attr('fill', d => genreColors[d.genre])
+      .attr('r', d => rScale(d.performances || 1))
+      .attr('fill', d => genreColors[d.genre] || '#8B5CF6')
       .attr('opacity', 0.85)
       .attr('stroke', '#ffffff')
       .attr('stroke-width', 1.5)
@@ -129,7 +133,7 @@ export default function ShowsPage() {
       })
 
     svg.call(zoom)
-  }, [])
+  }, [songs])
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-16 space-y-20">
@@ -161,6 +165,11 @@ export default function ShowsPage() {
               />
             </div>
           ))}
+          {images.length === 0 && videos.length === 0 && (
+            <div className="col-span-full text-center py-12 text-zinc-500">
+              <p>Gallery images coming soon. Add them via Sanity CMS.</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -175,7 +184,13 @@ export default function ShowsPage() {
           ref={containerRef}
           className="w-full bg-[#000050] rounded-lg p-4 border border-blue-900/40 overflow-hidden"
         >
-          <svg ref={svgRef} />
+          {songs.length === 0 ? (
+            <div className="h-[520px] flex items-center justify-center text-zinc-500">
+              Loading repertoire data...
+            </div>
+          ) : (
+            <svg ref={svgRef} />
+          )}
         </div>
       </section>
 
@@ -183,24 +198,34 @@ export default function ShowsPage() {
         <h2 className="text-2xl font-semibold mb-6 text-blue-300">
           {t('repertoire')}
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {songs.map((song, i) => (
-            <div
-              key={i}
-              className="bg-[#000060] rounded-lg p-5 border border-blue-900/40 hover:border-blue-500/50 transition-colors"
-            >
-              <h3 className="text-lg font-semibold mb-1">{song.title}</h3>
-              <p className="text-sm text-zinc-400 mb-2">{song.composer}</p>
-              <div className="flex items-center gap-2 text-xs text-zinc-500">
-                <span>{song.year}</span>
-                <span className="text-zinc-600">·</span>
-                <span style={{ color: genreColors[song.genre] }}>
-                  {song.genre}
-                </span>
+        {songs.length === 0 ? (
+          <p className="text-zinc-500 text-center py-12">
+            No repertoire data yet. Add songs via Sanity CMS.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {songs.map((song) => (
+              <div
+                key={song._id}
+                className="bg-[#000060] rounded-lg p-5 border border-blue-900/40 hover:border-blue-500/50 transition-colors"
+              >
+                <h3 className="text-lg font-semibold mb-1">
+                  {localizedValue(song.title, locale)}
+                </h3>
+                <p className="text-sm text-zinc-400 mb-2">
+                  {localizedValue(song.composer, locale)}
+                </p>
+                <div className="flex items-center gap-2 text-xs text-zinc-500">
+                  <span>{song.year}</span>
+                  <span className="text-zinc-600">·</span>
+                  <span style={{ color: genreColors[song.genre] || '#8B5CF6' }}>
+                    {song.genre}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {selectedSong && (
@@ -219,25 +244,25 @@ export default function ShowsPage() {
               ×
             </button>
             <h3 className="text-xl font-bold mb-1 pr-6">
-              {selectedSong.title}
+              {localizedValue(selectedSong.title, locale)}
             </h3>
             <p className="text-sm text-zinc-400 mb-3">
-              {selectedSong.composer}
+              {localizedValue(selectedSong.composer, locale)}
             </p>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-500 mb-4">
               <span>{selectedSong.year}</span>
               <span className="text-zinc-600">·</span>
               <span>{selectedSong.era}</span>
               <span className="text-zinc-600">·</span>
-              <span style={{ color: genreColors[selectedSong.genre] }}>
+              <span style={{ color: genreColors[selectedSong.genre] || '#8B5CF6' }}>
                 {selectedSong.genre}
               </span>
             </div>
             <p className="text-sm text-zinc-300 leading-relaxed mb-3">
-              {selectedSong.description}
+              {localizedValue(selectedSong.description, locale)}
             </p>
             <p className="text-xs text-zinc-500">
-              {`Performances: ${selectedSong.performances}`}
+              {`Performances: ${selectedSong.performances || 1}`}
             </p>
           </div>
         </div>
