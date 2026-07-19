@@ -4,7 +4,6 @@ import { useTranslations } from 'next-intl'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { sanityFetch, urlFor, localizedValue } from '@/sanity/fetch'
-import Image from 'next/image'
 
 type Member = {
   _id: string
