@@ -4,8 +4,8 @@ const DEEPL_API = 'https://api-free.deepl.com/v2/translate'
 
 const localeToDeepL: Record<string, string> = {
   en: 'EN',
-  'zh-TW': 'ZH',
-  'zh-CN': 'ZH',
+  'zh-TW': 'ZH', 'zhTW': 'ZH',
+  'zh-CN': 'ZH', 'zhCN': 'ZH',
   ja: 'JA',
   ko: 'KO',
   fr: 'FR',
@@ -32,10 +32,12 @@ export async function POST(request: Request) {
 
     const res = await fetch(DEEPL_API, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        auth_key: apiKey,
-        text,
+      headers: {
+        'Authorization': `DeepL-Auth-Key ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: [text],
         source_lang: source,
         target_lang: target,
       }),

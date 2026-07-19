@@ -1,6 +1,5 @@
 import {useCallback, useState} from 'react'
 import {useClient} from 'sanity'
-import {useDocumentOperation} from 'sanity'
 
 const localeKeys = ['en', 'zhTW', 'zhCN', 'ja', 'ko', 'fr', 'de']
 
@@ -19,9 +18,12 @@ export function TranslateAction(props: any) {
     setLoading(true)
     try {
       const doc = props.draft || props.published
-      if (!doc || !doc._id) return
+      if (!doc || !doc._id) {
+        alert('No document to translate')
+        return
+      }
 
-      const patches: Record<string, any> = {}
+      let translated = 0
 
       for (const key of Object.keys(doc)) {
         const val = doc[key]
@@ -45,18 +47,19 @@ export function TranslateAction(props: any) {
         for (const t of targets) {
           if (data[t]) val[t] = data[t]
         }
-        patches[key] = val
+        const tx = client.transaction()
+        tx.patch(doc._id, (p: any) => p.set({[key]: val}))
+        await tx.commit()
+        translated++
       }
 
-      if (Object.keys(patches).length > 0) {
-        const tx = client.transaction()
-        for (const [key, value] of Object.entries(patches)) {
-          tx.patch(doc._id, (p: any) => p.set({[key]: value}))
-        }
-        await tx.commit()
+      if (translated > 0) {
+        alert(`Translation complete for ${translated} field(s)!`)
+      } else {
+        alert('No empty fields found to translate.')
       }
     } catch (err: any) {
-      console.error('Translate error:', err)
+      alert(`Translation failed: ${err.message}`)
     } finally {
       setLoading(false)
       props.onComplete()
