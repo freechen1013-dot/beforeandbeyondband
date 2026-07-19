@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "shows": "Shows / Media",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "home": {
+    "heroTitle": "Before and Beyond",
+    "heroSubtitle": "Transcending musical eras and instruments to perform works from different generations",
+    "bandIntro": "We are an unconventional ensemble that breaks free from the constraints of time and instrumentation. From Baroque to contemporary pop, from Taiwanese folk songs to original compositions — every piece is reimagined through our unique lens.",
+    "eraSummary": "From 1680 to 2022, spanning over 340 years of music history across 8 distinct generations.",
+    "viewShows": "Explore Our Repertoire",
+    "latestBlog": "Latest Updates",
+    "viewAll": "View All"
+  },
+  "about": {
+    "title": "About Us",
+    "mission": "Our Mission",
+    "missionText": "Before and Beyond is an unconventional ensemble dedicated to transcending the limitations of musical eras and instruments. We breathe new life into works from different generations, creating a dialogue between the past and the present.",
+    "history": "Our Journey",
+    "historyText": "From our first performance to our latest concerts, we have continuously expanded our repertoire across centuries of music. Our journey is one of exploration — discovering how pieces from different eras speak to each other when placed side by side.",
+    "members": "Members",
+    "memberPlaceholder": "Member information coming soon"
+  },
+  "shows": {
+    "title": "Shows & Media",
+    "gallery": "Photo & Video Gallery",
+    "eraDiagram": "Era Diagram",
+    "eraDescription": "Explore the跨度 of our repertoire — from the Baroque era to the present day. Each point represents a piece we have performed.",
+    "repertoire": "Repertoire",
+    "clickToExplore": "Click on any point to explore the piece",
+    "year": "Year",
+    "genre": "Genre",
+    "composer": "Composer",
+    "era": "Era"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Latest news, behind-the-scenes, and stories from Before and Beyond",
+    "readMore": "Read More",
+    "noPosts": "No posts yet. Check back soon!"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Have a question or want to book us? Send us a message!",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send Message",
+    "success": "Message sent successfully! We'll get back to you soon.",
+    "error": "Something went wrong. Please try again."
+  },
+  "footer": {
+    "credit": "Before and Beyond",
+    "copyright": "All rights reserved."
+  }
+}

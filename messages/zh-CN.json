@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "首页",
+    "about": "关于",
+    "shows": "演出 / 媒体",
+    "blog": "博客",
+    "contact": "联络"
+  },
+  "home": {
+    "heroTitle": "Before and Beyond",
+    "heroSubtitle": "跨越音乐时代与乐器的限制，演奏不同世代的不同作品",
+    "bandIntro": "我们是一个非传统乐团，不受时间与乐器编制的束缚。从巴洛克到当代流行，从台湾民谣到原创作品 — 每首曲子都通过我们独特的视角重新诠释。",
+    "eraSummary": "从 1680 年到 2022 年，横跨超过 340 年的音乐历史，涵盖 8 个不同世代。",
+    "viewShows": "探索我们的曲目",
+    "latestBlog": "最新消息",
+    "viewAll": "查看全部"
+  },
+  "about": {
+    "title": "关于我们",
+    "mission": "我们的使命",
+    "missionText": "Before and Beyond 是一个非传统乐团，致力于跨越音乐时代与乐器的限制。我们为不同世代的作品注入新生命，在过去与现在之间创造对话。",
+    "history": "我们的旅程",
+    "historyText": "从第一场演出到最新的音乐会，我们不断扩展横跨数个世纪的曲目库。我们的旅程是一场探索 — 发现不同时代的作品如何并置对话。",
+    "members": "团员介绍",
+    "memberPlaceholder": "团员信息即将上线"
+  },
+  "shows": {
+    "title": "演出与媒体",
+    "gallery": "照片与视频集锦",
+    "eraDiagram": "时代图谱",
+    "eraDescription": "探索我们曲目的跨度 — 从巴洛克时期到当代。每个点代表我们演奏过的一首作品。",
+    "repertoire": "曲目列表",
+    "clickToExplore": "点击任意标记探索该作品",
+    "year": "年份",
+    "genre": "风格",
+    "composer": "作曲者",
+    "era": "时代"
+  },
+  "blog": {
+    "title": "博客",
+    "description": "来自 Before and Beyond 的最新消息、幕后花絮与故事",
+    "readMore": "阅读更多",
+    "noPosts": "暂无文章，敬请期待！"
+  },
+  "contact": {
+    "title": "联系我们",
+    "description": "有问题或想邀请我们演出？请给我们留言！",
+    "name": "姓名",
+    "email": "电子邮件",
+    "message": "消息内容",
+    "send": "发送消息",
+    "success": "消息已成功发送！我们会尽快回复。",
+    "error": "发生错误，请重试。"
+  },
+  "footer": {
+    "credit": "Before and Beyond",
+    "copyright": "版权所有。"
+  }
+}

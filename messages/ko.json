@@ -1,0 +1,9 @@
+{
+  "nav": { "home": "홈", "about": "소개", "shows": "공연 / 미디어", "blog": "블로그", "contact": "문의" },
+  "home": { "heroTitle": "Before and Beyond", "heroSubtitle": "음악의 시대와 악기의 제약을 넘어 다양한 세대의 작품을 연주합니다", "bandIntro": "우리는 틀에 박히지 않은 앙상블입니다. 바로크부터 컨템포러리 팝, 대만 민요부터 오리지널 작품까지 모든 곡을 독특한 시각으로 재해석합니다.", "eraSummary": "1680년부터 2022년까지, 340년 이상의 음악 역사를 8개 세대에 걸쳐 아우릅니다.", "viewShows": "레퍼토리 살펴보기", "latestBlog": "최신 소식", "viewAll": "전체 보기" },
+  "about": { "title": "소개", "mission": "우리의 사명", "missionText": "Before and Beyond는 음악의 시대와 악기의 제약을 초월하는 데 전념하는 독특한 앙상블입니다.", "history": "우리의 여정", "historyText": "첫 공연부터 최신 콘서트까지 수 세기에 걸친 레퍼토리를 계속 확장해 왔습니다.", "members": "멤버", "memberPlaceholder": "멤버 정보 준비 중" },
+  "shows": { "title": "공연 및 미디어", "gallery": "사진 및 비디오 갤러리", "eraDiagram": "시대 도표", "eraDescription": "바로크 시대부터 현재까지 레퍼토리의 폭을 탐험하세요.", "repertoire": "레퍼토리", "clickToExplore": "점을 클릭하여 작품 살펴보기", "year": "연도", "genre": "장르", "composer": "작곡가", "era": "시대" },
+  "blog": { "title": "블로그", "description": "최신 뉴스, 비하인드 스토리", "readMore": "더 읽기", "noPosts": "아직 게시물이 없습니다." },
+  "contact": { "title": "문의하기", "description": "질문이나 공연 문의는 메시지를 보내주세요!", "name": "이름", "email": "이메일", "message": "메시지", "send": "보내기", "success": "메시지가 전송되었습니다.", "error": "오류가 발생했습니다." },
+  "footer": { "credit": "Before and Beyond", "copyright": "All rights reserved." }
+}

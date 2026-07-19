@@ -1,0 +1,9 @@
+{
+  "nav": { "home": "ホーム", "about": "について", "shows": "公演 / メディア", "blog": "ブログ", "contact": "お問い合わせ" },
+  "home": { "heroTitle": "Before and Beyond", "heroSubtitle": "音楽の時代と楽器の制限を超え、さまざまな世代の作品を演奏", "bandIntro": "私たちは型にはまらないアンサンブルです。バロックから現代ポップス、台湾民謡からオリジナル作品まで、すべての曲を独自の視点で再解釈しています。", "eraSummary": "1680年から2022年まで、340年以上の音楽史を8つの世代にわたって網羅。", "viewShows": "レパートリーを探る", "latestBlog": "最新情報", "viewAll": "すべて見る" },
+  "about": { "title": "私たちについて", "mission": "私たちの使命", "missionText": "Before and Beyondは、音楽の時代と楽器の制限を超えることに特化した型にはまらないアンサンブルです。", "history": "私たちの旅路", "historyText": "初めての公演から最新のコンサートまで、数世紀にわたるレパートリーを拡大し続けています。", "members": "メンバー", "memberPlaceholder": "メンバー情報準備中" },
+  "shows": { "title": "公演とメディア", "gallery": "写真・ビデオギャラリー", "eraDiagram": "時代図譜", "eraDescription": "バロック時代から現代までのレパートリーの幅を探索。", "repertoire": "レパートリー", "clickToExplore": "点をクリックして作品を探索", "year": "年", "genre": "ジャンル", "composer": "作曲者", "era": "時代" },
+  "blog": { "title": "ブログ", "description": "最新ニュース、舞台裏、ストーリー", "readMore": "続きを読む", "noPosts": "まだ投稿はありません。" },
+  "contact": { "title": "お問い合わせ", "description": "ご質問や出演依頼はこちらから", "name": "お名前", "email": "メールアドレス", "message": "メッセージ", "send": "送信", "success": "メッセージを送信しました。", "error": "エラーが発生しました。" },
+  "footer": { "credit": "Before and Beyond", "copyright": "All rights reserved." }
+}
