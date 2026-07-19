@@ -43,10 +43,16 @@ export default function ShowsPage() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    setImages([
+      '/IMG_3092.JPG', '/IMG_20250420_101511.JPEG', '/IMG_3084.jpg', '/IMG_3086.jpg',
+      '/F5B48205B391DB7A7802F49D2E1E40E1A1F7E5A5.jpeg',
+      '/67AE669094D3D8F32327E5B44469ACD216CAD6B0.jpeg',
+      '/139B950DBEB791DEE7F7CB4451789B0916C4AF7A.jpeg',
+    ])
+    setVideos(['/IMG_3059.mp4', '/IMG_3077.mp4'])
+
     sanityFetch<any[]>(`*[_type == "song"]{_id, title, composer, year, genre, era, description, performances, coverArt, performanceVideo, songUrl}`)
       .then(setSongs)
-      .catch(() => {})
-    sanityFetch<any[]>(`*[_type == "siteSettings"][0]{igUrl, ytUrl}`)
       .catch(() => {})
   }, [])
 
