@@ -4,8 +4,8 @@ const DEEPL_API = 'https://api-free.deepl.com/v2/translate'
 
 const localeToDeepL: Record<string, string> = {
   en: 'EN',
-  'zh-TW': 'ZH', 'zhTW': 'ZH',
-  'zh-CN': 'ZH', 'zhCN': 'ZH',
+  'zh-TW': 'ZH-HANT', 'zhTW': 'ZH-HANT',
+  'zh-CN': 'ZH-HANS', 'zhCN': 'ZH-HANS',
   ja: 'JA',
   ko: 'KO',
   fr: 'FR',
