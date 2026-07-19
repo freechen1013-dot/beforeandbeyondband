@@ -17,4 +17,7 @@ export default defineType({
     defineField({ name: 'performanceVideo', title: 'Performance Video', type: 'url' }),
     defineField({ name: 'songUrl', title: 'Song URL', type: 'url' }),
   ],
+  preview: {
+    select: { title: 'title.en', subtitle: 'composer.en' },
+  },
 })
